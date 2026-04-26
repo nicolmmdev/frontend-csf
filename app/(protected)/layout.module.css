@@ -1,0 +1,18 @@
+
+.container {
+  display: flex;
+  height: 100vh;
+  background: var(--background);
+}
+
+/* SIDEBAR ocupa su espacio */
+.container > :first-child {
+  flex-shrink: 0;
+}
+
+/* CONTENIDO */
+.content {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}

@@ -1,0 +1,109 @@
+.container {
+  width: 240px;
+  height: 100vh; /* 🔥 clave */
+  background: var(--primary);
+  color: white;
+  padding: 20px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 999;
+}
+
+/* LOGO */
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* MENU */
+.menu {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ITEMS */
+.item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ACTIVO */
+.active {
+  background: white;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* LOGOUT */
+.logout {
+  padding: 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: 0.2s;
+}
+
+.logout:hover {
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* BOTÓN MOBILE */
+.toggle {
+  display: none;
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 1001;
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* 🔥 OVERLAY */
+.overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    transform: translateX(-100%);
+    width: 260px;
+  }
+
+  .open {
+    transform: translateX(0);
+  }
+
+  .toggle {
+    display: block;
+  }
+
+  .overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 998;
+  }
+}

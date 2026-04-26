@@ -1,0 +1,156 @@
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url("/fondo_rsf.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  position: relative;
+}
+
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.card {
+  width: 100%;
+  max-width: 380px;
+  padding: 32px 26px;
+  border-radius: 20px;
+  background: linear-gradient(
+    180deg,
+    var(--primary-light) 0%,
+    var(--primary) 100%
+  );
+
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  /* 🔥 PRO */
+  position: relative;
+  z-index: 1;
+  backdrop-filter: blur(8px);
+
+  transform: translateY(-15px); 
+
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.25),
+    0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.logo {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.label {
+  font-size: 13px;
+  opacity: 0.9;
+}
+.input {
+  padding: 12px 40px 12px 16px;
+  border-radius: 14px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+
+  color: var(--text);
+  background: var(--input-bg);
+}
+
+.passwordWrapper {
+  position: relative;
+  width: 100%;
+  background: var(--input-bg-soft);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+
+  box-shadow: var(--shadow-sm);
+}
+
+.emailWrapper {
+  box-shadow: var(--shadow-sm);
+}
+
+.eye {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.loginBtn {
+  flex: 1;
+  background: var(--secondary);
+  border: none;
+  padding: 14px;
+  border-radius: 30px;
+  color: var(--white);
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  transition: 0.2s;
+
+  font-family: 'Open sans';
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); 
+}
+
+.loginBtn:hover {
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+.error {
+  color: #ffdddd;
+  font-size: 12px;
+  margin-top: -8px;
+}
+
+.inputError, .inputPasswordError {
+  border: 2px solid #ff6b6b;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 24px 18px;
+    border-radius: 16px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .loginBtn {
+    width: 100%;
+  }
+}

@@ -1,0 +1,74 @@
+/* 🔥 FONDO OVERLAY */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 20px; /* 🔥 evita que se pegue en bordes */
+  z-index: 9999;
+}
+
+/* CONTENEDOR */
+.loader {
+  width: 100%;
+  max-width: 280px; /* 🔥 clave responsive */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  background: var(--card, white);
+  padding: 20px;
+  border-radius: 16px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+  text-align: center; /* 🔥 centra texto */
+}
+
+/* SPINNER */
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid var(--primary);
+
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* TEXTO */
+.text {
+  font-size: 14px;
+  color: var(--text, #333);
+}
+
+/* ANIMACIÓN */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .loader {
+    max-width: 220px;
+    padding: 16px;
+    border-radius: 14px;
+  }
+
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border-width: 3px;
+  }
+
+  .text {
+    font-size: 13px;
+  }
+}
