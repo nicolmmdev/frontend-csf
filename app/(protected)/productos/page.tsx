@@ -3,19 +3,16 @@
 import { useEffect, useState } from "react";
 import api from "@/lib/api";
 import { Producto } from "@/types";
-import styles from "./productos.module.css";
+import styles from "./page.module.css";
+import ProductoCard from "./components/ProductoCard/ProductoCard";
+import ProductoModal from "./components/ProductoModal/ProductoModal";
+
 
 export default function Productos() {
   const [data, setData] = useState<Producto[]>([]);
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const [form, setForm] = useState({
-    nombre_producto: "",
-    nroLote: "",
-    costo: 0,
-  });
-
-  const fetchProductos = async (): Promise<void> => {
+  const fetchProductos = async () => {
     const res = await api.get<Producto[]>("/productos");
     setData(res.data);
   };
@@ -25,85 +22,27 @@ export default function Productos() {
     fetchProductos();
   }, []);
 
-  const handleCreate = async (): Promise<void> => {
-    await api.post("/productos", {
-      ...form,
-      precioVenta: form.costo * 1.35,
-    });
-
-    setShowModal(false);
-    fetchProductos();
-  };
-
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Productos</h2>
+      <div className={styles.header}>
+        <h2>Productos</h2>
 
-      <button
-        className={styles.button}
-        onClick={() => setShowModal(true)}
-      >
-        Nuevo producto
-      </button>
+        <button onClick={() => setShowModal(true)}>
+          + Nuevo producto
+        </button>
+      </div>
 
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Lote</th>
-            <th>Costo</th>
-            <th>Precio</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {data.map((p) => (
-            <tr key={p.id_producto}>
-              <td>{p.id_producto}</td>
-              <td>{p.nombre_producto}</td>
-              <td>{p.nroLote}</td>
-              <td>{p.costo}</td>
-              <td>{p.precioVenta}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className={styles.grid}>
+        {data.map((p) => (
+          <ProductoCard key={p.id_producto} producto={p} />
+        ))}
+      </div>
 
       {showModal && (
-        <div className={styles.modal}>
-          <div className={styles.modalContent}>
-            <h3>Nuevo Producto</h3>
-
-            <input
-              placeholder="Nombre"
-              onChange={(e) =>
-                setForm({ ...form, nombre_producto: e.target.value })
-              }
-            />
-
-            <input
-              placeholder="Lote"
-              onChange={(e) =>
-                setForm({ ...form, nroLote: e.target.value })
-              }
-            />
-
-            <input
-              placeholder="Costo"
-              type="number"
-              onChange={(e) =>
-                setForm({ ...form, costo: Number(e.target.value) })
-              }
-            />
-
-            <button onClick={handleCreate}>Guardar</button>
-
-            <button onClick={() => setShowModal(false)}>
-              Cancelar
-            </button>
-          </div>
-        </div>
+        <ProductoModal
+          onClose={() => setShowModal(false)}
+          onSuccess={fetchProductos}
+        />
       )}
     </div>
   );

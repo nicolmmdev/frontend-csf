@@ -1,5 +1,5 @@
 .container {
-  min-height: 100vh;
+  /* min-height: 100vh; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +34,6 @@
   flex-direction: column;
   gap: 16px;
 
-  /* 🔥 PRO */
   position: relative;
   z-index: 1;
   backdrop-filter: blur(8px);

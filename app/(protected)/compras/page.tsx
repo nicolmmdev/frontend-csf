@@ -1,57 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import api from "@/lib/api";
-import { Item, CompraRequest } from "@/types";
+import styles from "./page.module.css";
+import CompraCard from "./components/CompraCard/CompraCard";
+import CompraModal from "./components/CompraModal/CompraModal";
+import { Compra } from "@/types";
+import CompraDetalleModal from "./components/CompraDetalleModal/CompraDetalleModal";
 
 export default function Compras() {
-  const [items, setItems] = useState<Item[]>([]);
+  const [compras, setCompras] = useState<Compra[]>([]);
+  const [showModal, setShowModal] = useState(false);
 
-  const addItem = (): void => {
-    setItems([...items, { idProducto: 0, cantidad: 0, precio: 0 }]);
+  const fetchCompras = async () => {
+    const res = await api.get<Compra[]>("/compras");
+    console.log('res', res)
+    setCompras(res.data);
   };
-
-  const updateItem = (index: number, field: keyof Item, value: number): void => {
-    const updated = [...items];
-    updated[index][field] = value;
-    setItems(updated);
-  };
-
-  const save = async (): Promise<void> => {
-    const payload: CompraRequest = { items };
-    await api.post("/compras", payload);
-    alert("Compra registrada");
-  };
+  const [detalleId, setDetalleId] = useState<number | null>(null);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchCompras();
+  }, []);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>Compras</h2>
+    <div className={styles.container}>
 
-      {items.map((item, index) => (
-        <div key={index}>
-          <input
-            placeholder="ID Producto"
-            onChange={(e) =>
-              updateItem(index, "idProducto", Number(e.target.value))
-            }
-          />
-          <input
-            placeholder="Cantidad"
-            onChange={(e) =>
-              updateItem(index, "cantidad", Number(e.target.value))
-            }
-          />
-          <input
-            placeholder="Precio"
-            onChange={(e) =>
-              updateItem(index, "precio", Number(e.target.value))
-            }
-          />
-        </div>
-      ))}
+{detalleId && (
+  <CompraDetalleModal
+    key={detalleId} // 🔥 CLAVE
+    id={detalleId}
+    onClose={() => setDetalleId(null)}
+  />
+)}
+      <div className={styles.header}>
+        <h2>Compras</h2>
 
-      <button onClick={addItem}>Agregar producto</button>
-      <button onClick={save}>Guardar compra</button>
+        <button onClick={() => setShowModal(true)}>
+          + Nueva compra
+        </button>
+      </div>
+
+      <div className={styles.grid}>
+        {compras.map((c) => (
+          <CompraCard key={c.id} compra={c} onVerDetalle={setDetalleId} />
+        ))}
+      </div>
+
+      {showModal && (
+        <CompraModal
+          onClose={() => setShowModal(false)}
+          onSuccess={fetchCompras}
+        />
+      )}
     </div>
   );
 }

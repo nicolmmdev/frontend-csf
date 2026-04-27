@@ -1,6 +1,5 @@
 .container {
   width: 240px;
-  height: 100vh; /* 🔥 clave */
   background: var(--primary);
   color: white;
   padding: 20px;
@@ -13,14 +12,12 @@
   z-index: 999;
 }
 
-/* LOGO */
 .logo {
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 30px;
 }
 
-/* MENU */
 .menu {
   flex: 1;
   display: flex;
@@ -28,7 +25,6 @@
   gap: 8px;
 }
 
-/* ITEMS */
 .item {
   padding: 10px 12px;
   border-radius: 8px;
@@ -40,14 +36,12 @@
   background: rgba(255, 255, 255, 0.1);
 }
 
-/* ACTIVO */
 .active {
   background: white;
   color: var(--primary);
   font-weight: 600;
 }
 
-/* LOGOUT */
 .logout {
   padding: 12px;
   border-radius: 10px;
@@ -61,7 +55,6 @@
   background: rgba(0, 0, 0, 0.35);
 }
 
-/* BOTÓN MOBILE */
 .toggle {
   display: none;
   position: fixed;
@@ -76,7 +69,6 @@
   cursor: pointer;
 }
 
-/* 🔥 OVERLAY */
 .overlay {
   display: none;
 }

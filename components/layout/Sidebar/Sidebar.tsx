@@ -32,12 +32,10 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* 🔥 BOTÓN MOBILE */}
       <button className={styles.toggle} onClick={() => setOpen(!open)}>
         ☰
       </button>
 
-      {/* 🔥 OVERLAY */}
       {open && (
         <div
           className={styles.overlay}
@@ -45,10 +43,9 @@ export default function Sidebar() {
         />
       )}
 
-      {/* 🔥 SIDEBAR */}
       <aside className={`${styles.container} ${open ? styles.open : ""}`}>
         <div>
-          <h3 className={styles.logo}>Clínica</h3>
+          <h3 className={styles.logo}>Clínica San Felipe</h3>
 
           <nav className={styles.menu}>
             <div

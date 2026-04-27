@@ -1,0 +1,47 @@
+.container {
+  padding: 24px;
+}
+
+.table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.head,
+.row {
+  display: grid;
+  grid-template-columns: 60px 1fr 80px 100px 100px 80px;
+  gap: 10px;
+  padding: 10px;
+  align-items: center;
+}
+
+.head {
+  font-weight: bold;
+  border-bottom: 2px solid var(--border);
+}
+
+.row {
+  background: var(--card);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.stock {
+  font-weight: bold;
+  color: var(--primary);
+}
+
+.price {
+  color: var(--primary);
+}
+
+.button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+}

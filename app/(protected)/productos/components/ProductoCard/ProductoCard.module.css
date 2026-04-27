@@ -1,0 +1,66 @@
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  border: 1px solid var(--border);
+
+  transition: all 0.25s ease;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  border-color: var(--primary-light);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h4 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.lote {
+  font-size: 12px;
+  background: var(--hover);
+  padding: 4px 8px;
+  border-radius: 6px;
+  color: var(--muted);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.row span {
+  color: var(--muted);
+}
+
+.row strong {
+  color: var(--text);
+}
+
+.price {
+  color: var(--primary);
+  font-weight: 600;
+}

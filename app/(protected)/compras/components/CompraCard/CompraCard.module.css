@@ -1,0 +1,103 @@
+.card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  border: 1px solid var(--border);
+
+  transition: all 0.25s ease;
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  border-color: var(--primary-light);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h4 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.badge {
+  background: var(--primary-light);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.row span {
+  color: var(--muted);
+}
+
+.row strong {
+  color: var(--text);
+}
+
+.total {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+
+  display: flex;
+  justify-content: space-between;
+
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.total strong {
+  color: var(--primary);
+  font-size: 16px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.footer small {
+  color: var(--muted);
+}
+
+.footer button {
+  background: var(--primary);
+  color: var(--white);
+
+  border: none;
+  padding: 8px 12px;
+  border-radius: 10px;
+
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+
+  transition: 0.2s;
+}
+
+.footer button:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
