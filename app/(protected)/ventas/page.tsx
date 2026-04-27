@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import api from "@/lib/api";
 import styles from "./page.module.css";
 import { Producto, Item, VentaRequest } from "@/types";
-
+import Swal from "sweetalert2";
 type StockMap = Record<number, number>;
 type CartItem = Item & {
   uuid: string;
@@ -45,13 +45,11 @@ export default function VentasPOS() {
     );
   }, [search, productos]);
 
-  // ➕ agregar al carrito
   const addToCart = (p: Producto) => {
     setError("");
 
     const exists = cart.find((c) => c.idProducto === p.id_producto);
     if (exists) {
-      // incrementar cantidad si no supera stock
       const nextQty = exists.cantidad + 1;
       const stock = stockMap[p.id_producto] || 0;
       if (nextQty > stock) {
@@ -99,7 +97,7 @@ export default function VentasPOS() {
     );
   };
 
-  // 🧮 cálculos
+
   const calcSub = (i: CartItem) => i.cantidad * i.precio;
   const calcIgv = (i: CartItem) => calcSub(i) * 0.18;
   const calcTot = (i: CartItem) => calcSub(i) + calcIgv(i);
@@ -108,38 +106,58 @@ export default function VentasPOS() {
   const igv = cart.reduce((a, i) => a + calcIgv(i), 0);
   const total = subtotal + igv;
 
-  // 💾 guardar venta
-  const handleSave = async () => {
-    setError("");
+const handleSave = async () => {
+  setError("");
 
-    if (cart.length === 0) {
-      setError("Agrega productos");
+  if (cart.length === 0) {
+    Swal.fire({
+      icon: "warning",
+      title: "Carrito vacío",
+      text: "Agrega productos antes de guardar",
+    });
+    return;
+  }
+
+  for (const i of cart) {
+    if (i.cantidad > i.stock) {
+      Swal.fire({
+        icon: "error",
+        title: "Stock insuficiente",
+        text: "La cantidad no puede ser mayor al stock",
+      });
       return;
     }
+  }
 
-    for (const i of cart) {
-      if (i.cantidad > i.stock) {
-        setError("Cantidad mayor al stock");
-        return;
-      }
-    }
-
-    const payload: VentaRequest = {
-      items: cart.map(({ uuid, nombre, stock, ...rest }) => rest),
-    };
-
-    try {
-      setLoading(true);
-      await api.post("/ventas", payload);
-      setCart([]);
-      await fetchAll();
-    } catch {
-      setError("Error al guardar venta");
-    } finally {
-      setLoading(false);
-    }
+  const payload: VentaRequest = {
+    items: cart.map(({ uuid, nombre, stock, ...rest }) => rest),
   };
 
+  try {
+    setLoading(true);
+
+    await api.post("/ventas", payload);
+
+    await Swal.fire({
+      icon: "success",
+      title: "Venta registrada",
+      text: "La venta se guardó correctamente",
+      confirmButtonColor: "#2563eb",
+    });
+
+    setCart([]);
+    await fetchAll();
+
+  } catch {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudo guardar la venta",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
   return (
     <div className={styles.container}>
       <div className={styles.left}>
@@ -182,7 +200,7 @@ export default function VentasPOS() {
         <div className={styles.cart}>
           {cart.map((i) => (
             <div key={i.uuid} className={styles.cartItem}>
-              <div>
+              <div className={styles.detalleHeader}>
                 <strong>{i.nombre}</strong>
                 <small>Stock: {i.stock}</small>
               </div>
@@ -223,13 +241,15 @@ export default function VentasPOS() {
 
         {error && <span className={styles.error}>{error}</span>}
 
-        <button
-          className={styles.save}
-          onClick={handleSave}
-          disabled={cart.length === 0 || loading}
-        >
-          {loading ? "Guardando..." : "Guardar venta"}
-        </button>
+<button
+  className={`${styles.save} ${
+    cart.length === 0 || loading ? styles.disabledBtn : ""
+  }`}
+  onClick={handleSave}
+  disabled={cart.length === 0 || loading}
+>
+  {loading ? "Guardando..." : "Guardar venta"}
+</button>
       </div>
     </div>
   );

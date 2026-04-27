@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import api from "@/lib/api";
 import styles from "./CompraModal.module.css";
 import { Producto, Item, CompraRequest } from "@/types";
+import Swal from "sweetalert2";
 
 export default function CompraModal({
   onClose,
@@ -15,8 +16,8 @@ export default function CompraModal({
   const [productos, setProductos] = useState<Producto[]>([]);
   const [items, setItems] = useState<Item[]>([
 
-  ]); const [error, setError] = useState("");
-
+  ]); const [error, setError] = useState<string>("");
+const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
     api.get<Producto[]>("/productos").then((res) => {
       setProductos(res.data);
@@ -46,43 +47,61 @@ export default function CompraModal({
     0
   );
 
-  const handleCreate = async () => {
-    setError("");
+const handleCreate = async () => {
+  setError("");
 
-    // 🔥 1. mínimo 1 producto válido
-    if (items.length === 0 || items.every(i => !i.idProducto)) {
-      setError("Debes agregar al menos un producto");
+  if (items.length === 0 || items.every(i => !i.idProducto)) {
+    setError("Debes agregar al menos un producto");
+    return;
+  }
+
+  for (const i of items) {
+    if (!i.idProducto) {
+      setError("Seleccione todos los productos");
       return;
     }
-
-    // 🔥 2. validar campos
-    for (const i of items) {
-      if (!i.idProducto) {
-        setError("Seleccione todos los productos");
-        return;
-      }
-      if (i.cantidad <= 0) {
-        setError("Cantidad inválida");
-        return;
-      }
-    }
-
-    // 🔥 3. evitar duplicados
-    const ids = items.map(i => i.idProducto);
-    const hasDuplicates = new Set(ids).size !== ids.length;
-
-    if (hasDuplicates) {
-      setError("No puedes repetir productos");
+    if (i.cantidad <= 0) {
+      setError("Cantidad inválida");
       return;
     }
+  }
+
+  const ids = items.map(i => i.idProducto);
+  const hasDuplicates = new Set(ids).size !== ids.length;
+
+  if (hasDuplicates) {
+    setError("No puedes repetir productos");
+    return;
+  }
+
+  try {
+    setLoading(true);
 
     const payload: CompraRequest = { items };
 
     await api.post("/compras", payload);
 
+    await Swal.fire({
+      icon: "success",
+      title: "Compra registrada",
+      text: `${items.length} producto(s) añadidos`,
+      showConfirmButton: false,
+      timer: 1500,
+    });
+
     onSuccess();
     onClose();
-  };
+
+  } catch (error) {
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudo registrar la compra",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
   const selectedIds = items.map(i => i.idProducto);
   return (
     <div className={styles.modal} onClick={onClose}>
@@ -162,15 +181,16 @@ export default function CompraModal({
         {error && <span className={styles.error}>{error}</span>}
 
         <div className={styles.actions}>
-          <button
-            onClick={handleCreate}
-            disabled={
-              items.length === 0 ||
-              items.some(i => !i.idProducto || i.cantidad <= 0)
-            }
-          >
-            Guardar
-          </button>
+<button
+  onClick={handleCreate}
+  disabled={
+    loading ||
+    items.length === 0 ||
+    items.some(i => !i.idProducto || i.cantidad <= 0)
+  }
+>
+  {loading ? "Guardando..." : "Guardar"}
+</button>
           <button onClick={onClose}>Cancelar</button>
         </div>
       </div>

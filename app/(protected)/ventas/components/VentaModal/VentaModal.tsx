@@ -47,12 +47,10 @@ export default function VentaModal({
 
   const selectedIds = items.map((i) => i.idProducto);
 
-  // cálculos por fila
   const calcSubtotal = (i: ItemUI) => i.cantidad * i.precio;
   const calcIgv = (i: ItemUI) => calcSubtotal(i) * 0.18;
   const calcTotal = (i: ItemUI) => calcSubtotal(i) + calcIgv(i);
 
-  // totales globales
   const subtotal = items.reduce((acc, i) => acc + calcSubtotal(i), 0);
   const igv = items.reduce((acc, i) => acc + calcIgv(i), 0);
   const total = subtotal + igv;

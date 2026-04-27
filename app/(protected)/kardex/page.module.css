@@ -26,6 +26,12 @@
   background: var(--card);
   border-radius: 10px;
   border: 1px solid var(--border);
+  transition: 0.2s;
+}
+
+.row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
 .stock {
@@ -44,4 +50,57 @@
   padding: 6px;
   border-radius: 6px;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 12px;
+  }
+
+  .head {
+    display: none;
+  }
+
+  .row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 12px;
+  }
+
+  .row span {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+  }
+
+  .row span::before {
+    font-weight: 600;
+    color: var(--text-light);
+  }
+
+  .row span:nth-child(1)::before {
+    content: "ID: ";
+  }
+
+  .row span:nth-child(2)::before {
+    content: "Producto: ";
+  }
+
+  .row span:nth-child(3)::before {
+    content: "Stock: ";
+  }
+
+  .row span:nth-child(4)::before {
+    content: "Costo: ";
+  }
+
+  .row span:nth-child(5)::before {
+    content: "Precio: ";
+  }
+
+  .row button {
+    width: 100%;
+    margin-top: 6px;
+  }
 }

@@ -3,7 +3,6 @@
   background: var(--primary);
   color: white;
   padding: 20px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -81,6 +80,7 @@
 
     transform: translateX(-100%);
     width: 260px;
+    height: 100%;
   }
 
   .open {

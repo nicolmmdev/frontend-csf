@@ -28,7 +28,7 @@ export default function Compras() {
 
 {detalleId && (
   <CompraDetalleModal
-    key={detalleId} // 🔥 CLAVE
+    key={detalleId} 
     id={detalleId}
     onClose={() => setDetalleId(null)}
   />

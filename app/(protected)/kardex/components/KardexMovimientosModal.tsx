@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import api from "@/lib/api";
 import styles from "./KardexMovimientosModal.module.css";
+import { v4 as uuid } from "uuid";
 
 type Movimiento = {
   id: number;
@@ -42,10 +43,11 @@ export default function KardexMovimientosModal({
           </div>
 
           {data.map((m) => (
-            <div key={m.id} className={styles.row}>
+            <div key={uuid()} className={styles.row}>
               <span>
                 {new Date(m.fecha).toLocaleDateString()}
               </span>
+
               <span
                 className={
                   m.tipo === 1 ? styles.entrada : styles.salida
@@ -53,12 +55,15 @@ export default function KardexMovimientosModal({
               >
                 {m.tipo === 1 ? "Entrada" : "Salida"}
               </span>
+
               <span>{m.cantidad}</span>
             </div>
           ))}
         </div>
 
-        <button onClick={onClose}>Cerrar</button>
+        <button className={styles.closeBtn} onClick={onClose}>
+          Cerrar
+        </button>
       </div>
     </div>
   );

@@ -15,20 +15,17 @@ console.log("TOKEN:", request.cookies);
 
     pathname.startsWith("/kardex");
 
-  // 🔴 NO LOGUEADO
   if (!token) {
     if (isLogin) return NextResponse.next();
 
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // 🟢 LOGUEADO
   if (token) {
     if (isLogin || isRoot) {
       return NextResponse.redirect(new URL("/compras", request.url));
     }
 
-    // 🔥 permitir acceso a protegidas
     if (isProtected) {
       return NextResponse.next();
     }

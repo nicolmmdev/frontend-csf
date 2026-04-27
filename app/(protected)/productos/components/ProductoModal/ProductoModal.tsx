@@ -3,7 +3,7 @@
 import { useState } from "react";
 import api from "@/lib/api";
 import styles from "./ProductoModal.module.css";
-
+import Swal from "sweetalert2";
 export default function ProductoModal({
   onClose,
   onSuccess,
@@ -16,7 +16,7 @@ export default function ProductoModal({
     nroLote: "",
     costo: 0,
   });
-
+const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({
     nombre: "",
     lote: "",
@@ -65,8 +65,11 @@ export default function ProductoModal({
     form.costo > 0 &&
     !hasErrors;
 
-  const handleCreate = async () => {
-    if (!validate()) return;
+const handleCreate = async () => {
+  if (!validate()) return;
+
+  try {
+    setLoading(true);
 
     await api.post("/productos", {
       ...form,
@@ -74,9 +77,28 @@ export default function ProductoModal({
       fec_registro: new Date().toISOString(),
     });
 
+    await Swal.fire({
+      icon: "success",
+      title: "Producto añadido",
+      text: "El producto se registró correctamente",
+      confirmButtonText: "OK",
+    });
+
     onSuccess();
     onClose();
-  };
+  } catch (error) {
+    console.error(error);
+
+    
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: "No se pudo guardar el producto",
+    });
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <div className={styles.modal} onClick={onClose}>
@@ -136,9 +158,9 @@ export default function ProductoModal({
           <button
             className={styles.saveBtn}
             onClick={handleCreate}
-            disabled={!isValid}
+            disabled={!isValid || loading}
           >
-            Guardar
+           {loading ? "Guardando..." : "Guardar"}
           </button>
 
           <button className={styles.cancelBtn} onClick={onClose}>

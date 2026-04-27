@@ -48,14 +48,7 @@ export default function Sidebar() {
           <h3 className={styles.logo}>Clínica San Felipe</h3>
 
           <nav className={styles.menu}>
-            <div
-              className={`${styles.item} ${
-                isActive("/productos") ? styles.active : ""
-              }`}
-              onClick={() => go("/productos")}
-            >
-              Productos
-            </div>
+         
 
             <div
               className={`${styles.item} ${
@@ -65,7 +58,14 @@ export default function Sidebar() {
             >
               Compras
             </div>
-
+   <div
+              className={`${styles.item} ${
+                isActive("/productos") ? styles.active : ""
+              }`}
+              onClick={() => go("/productos")}
+            >
+              Productos
+            </div>
             <div
               className={`${styles.item} ${
                 isActive("/ventas") ? styles.active : ""
@@ -87,7 +87,7 @@ export default function Sidebar() {
         </div>
 
         <div className={styles.logout} onClick={logout}>
-          Logout
+          Cerrar sesión
         </div>
       </aside>
     </>

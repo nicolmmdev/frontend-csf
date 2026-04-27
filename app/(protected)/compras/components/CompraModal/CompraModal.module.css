@@ -33,11 +33,10 @@
 
 .row {
   display: grid;
-  grid-template-columns: 1fr 80px 90px 40px;
-  gap: 10px;
+  grid-template-columns: 1fr 70px 80px 40px;
+  gap: 8px;
   align-items: center;
 }
-
 .row select,
 .row input {
   padding: 10px;
@@ -165,5 +164,36 @@ select option:disabled {
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@media (max-width: 600px) {
+  .modalContent {
+    width: 95%;
+    padding: 18px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .row select,
+  .row input,
+  .row span,
+  .row button {
+    width: 100%;
+  }
+
+  .row span {
+    text-align: left;
+  }
+
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
   }
 }

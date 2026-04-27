@@ -19,7 +19,7 @@ export default function KardexPage() {
 
   const fetchData = async () => {
     const res = await api.get<KardexItem[]>("/movimientos/stock");
-    setData(res.data);
+    setData(res.data.sort((a, b) => a.idProducto - b.idProducto));
   };
 
   useEffect(() => {

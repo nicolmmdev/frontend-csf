@@ -103,7 +103,10 @@
 .summary h4 {
   color: var(--primary);
 }
-
+.detalleHeader{
+  display: flex;
+  justify-content: space-between;
+}
 .save {
   background: var(--primary);
   color: white;
@@ -121,4 +124,74 @@
 .error {
   color: red;
   font-size: 12px;
+}
+.disabledBtn {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--border);
+}
+@media (max-width: 900px) {
+  .container {
+    grid-template-columns: 1fr;
+  }
+
+  .right {
+    order: -1; 
+  }
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+    gap: 12px;
+  }
+
+  .topBar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .topBar input {
+    width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .card {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .right {
+    padding: 12px;
+  }
+
+  .cart {
+    max-height: 250px;
+  }
+
+  .cartItem {
+    padding: 8px;
+    font-size: 13px;
+  }
+
+  .controls {
+    justify-content: space-between;
+  }
+
+  .controls input {
+    width: 40px;
+  }
+
+  .summary {
+    font-size: 14px;
+  }
+
+  .save {
+    width: 100%;
+    padding: 14px;
+  }
 }
